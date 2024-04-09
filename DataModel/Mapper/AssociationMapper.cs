@@ -19,7 +19,7 @@ public class AssociationMapper
     {
         Association associationDomain = _associationFactory.NewAssociation(associationDM.ColaboratorId, associationDM.ProjectId, 
                                                     associationDM.Period!.StartDate,associationDM.Period.EndDate);
-        associationDM.Id = associationDomain.Id;
+        associationDomain.Id = associationDM.Id;
         return associationDomain;
     }
 
