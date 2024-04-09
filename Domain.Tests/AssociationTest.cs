@@ -12,12 +12,13 @@ namespace Domain.Tests
         public void WhenPassingCorrectDataWithDataFim_ThenAssociationIsInstanciated()
         {
             // arrange
-            Mock<IPeriod> doublePeriod = new Mock<IPeriod>();
+            DateOnly startDate = new DateOnly(2024, 3, 1);
+            DateOnly endDate = new DateOnly(2024, 5, 31);
             long colaboratorId = 1;
             long projectId = 1;
 
             // act
-            Association a = new Association(colaboratorId, projectId, doublePeriod.Object);
+            Association a = new Association(colaboratorId, projectId, startDate, endDate);
 
             // assert
             Assert.NotNull(a);
@@ -25,37 +26,18 @@ namespace Domain.Tests
             Assert.Equal(a.ProjectId, projectId);
         }
 
-        // [Theory]
-        // [InlineData("2022-10-01", "2022-10-01")]
-        // [InlineData("2022-10-01", "2022-09-30")]
-        // public void WhenPassingInvalidDates_ThenThrowsException(string inicio, string fim)
-        // {
-        //     // arrange
-        //     Mock<IColaborator> doubleColaborator = new Mock<IColaborator>();
-        //     DateOnly dataInicio = DateOnly.Parse(inicio);
-        //     DateOnly dataFim = DateOnly.Parse(fim);
-
-        //     // assert
-        //     var ex = Assert.Throws<ArgumentException>(() =>
-
-        //         // act
-        //         new Association(doubleColaborator.Object, dataInicio, dataFim)
-        //     );
-
-        //     Assert.Equal("Invalid arguments.", ex.Message);
-        // }
-
 
         [Theory]
         [InlineData(1)]
         public void WhenRequestingIsColaboratorInAssociation_ThenReturnTrue(long id)
         {
             // arrange
-            Mock<IPeriod> doublePeriod = new Mock<IPeriod>();
+            DateOnly startDate = new DateOnly(2024, 3, 1);
+            DateOnly endDate = new DateOnly(2024, 5, 31);
             long colaboratorId = 1;
             long projectId = 1;
 
-            Association association = new Association(colaboratorId, projectId, doublePeriod.Object);
+            Association association = new Association(colaboratorId, projectId, startDate, endDate);
 
             // act
             bool actual = association.IsColaboratorInAssociation(id);
@@ -69,11 +51,12 @@ namespace Domain.Tests
         public void WhenRequestingIsColaboradorInAssociation_ThenReturnFalse(long id)
         {
             // arrange
-            Mock<IPeriod> doublePeriod = new Mock<IPeriod>();
+            DateOnly startDate = new DateOnly(2024, 3, 1);
+            DateOnly endDate = new DateOnly(2024, 5, 31);
             long colaboratorId = 1;
             long projectId = 1;
 
-            Association association = new Association(colaboratorId, projectId, doublePeriod.Object);
+            Association association = new Association(colaboratorId, projectId, startDate, endDate);
 
             // act
             bool actual = association.IsColaboratorInAssociation(id);
@@ -81,32 +64,6 @@ namespace Domain.Tests
             // assert
             Assert.False(actual);
         }
-
-
-        // [Fact]
-        // public void WhenRequestingAddColaboradorEmPeriodo_ThenReturnList()
-        // {
-        //     // arrange
-        //     List<IColaborator> colaboradores = new List<IColaborator>();
-
-        //     Mock<IColaborator> colabDouble = new Mock<IColaborator>();
-        //     DateOnly dataInicio = new DateOnly(2024, 3, 1);
-        //     DateOnly dataFim = new DateOnly(2024, 3, 15);
-
-        //     Association Association = new Association(colabDouble.Object, dataInicio, dataFim);
-
-        //     DateOnly inicioPeriodo = new DateOnly(2024, 1, 1);
-        //     DateOnly fimPeriodo = new DateOnly(2024, 12, 31);
-
-        //     // act
-        //     List<IColaborator> listaFinal = Association.AddColaboradorEmPeriodo(colaboradores, inicioPeriodo, fimPeriodo);
-
-        //     int expected = 1;
-        //     int actual = listaFinal.Count;
-
-        //     // assert
-        //     Assert.Equal(expected, actual);
-        // }
 
 
         [Theory]
@@ -128,13 +85,9 @@ namespace Domain.Tests
             DateOnly startAssociation = new DateOnly(2024, 7, 1);
             DateOnly endAssociation = new DateOnly(2024, 7, 15);
 
-            Mock<IPeriod> doublePeriod = new Mock<IPeriod>();
-            doublePeriod.Setup(p => p.StartDate).Returns(startAssociation);
-            doublePeriod.Setup(p => p.EndDate).Returns(endAssociation);
-
             long colaboratorId = 1;
             long projectId = 1;
-            Association association = new Association(colaboratorId, projectId, doublePeriod.Object);
+            Association association = new Association(colaboratorId, projectId, startAssociation, endAssociation);
 
             // act
             bool actual = association.IsAssociationInPeriod(startDate, endDate);
@@ -158,13 +111,9 @@ namespace Domain.Tests
             DateOnly startAssociation = new DateOnly(2024, 7, 1);
             DateOnly endAssociation = new DateOnly(2024, 7, 15);
 
-            Mock<IPeriod> doublePeriod = new Mock<IPeriod>();
-            doublePeriod.Setup(p => p.StartDate).Returns(startAssociation);
-            doublePeriod.Setup(p => p.EndDate).Returns(endAssociation);
-
             long colaboratorId = 1;
             long projectId = 1;
-            Association association = new Association(colaboratorId, projectId, doublePeriod.Object);
+            Association association = new Association(colaboratorId, projectId, startAssociation, endAssociation);
 
             // act
             bool actual = association.IsAssociationInPeriod(startDate, endDate);
@@ -197,14 +146,10 @@ namespace Domain.Tests
             DateOnly startAssociation = new DateOnly(2024, 2, 1);
             DateOnly endAssociation = new DateOnly(2024, 4, 30);
 
-            Mock<IPeriod> doublePeriod = new Mock<IPeriod>();
-            doublePeriod.Setup(p => p.StartDate).Returns(startAssociation);
-            doublePeriod.Setup(p => p.EndDate).Returns(endAssociation);
-
             long colaboratorId = 1;
             long projectId = 1;
 
-            Association association = new Association(colaboratorId, projectId, doublePeriod.Object);
+            Association association = new Association(colaboratorId, projectId, startAssociation, endAssociation);
 
             // act
             var datesFinal = association.GetDatesAssociationInPeriod(startDate, endDate);
@@ -227,11 +172,12 @@ namespace Domain.Tests
             DateOnly startDate = DateOnly.Parse(start);
             DateOnly endDate = DateOnly.Parse(end);
 
-            Mock<IPeriod> doublePeriod = new Mock<IPeriod>();
+            DateOnly startAssociation = new DateOnly(2020, 3, 1);
+            DateOnly endAssociation = new DateOnly(2020, 5, 31);
             long colaboratorId = 1;
             long projectId = 1;
 
-            Association association = new Association(colaboratorId, projectId, doublePeriod.Object);
+            Association association = new Association(colaboratorId, projectId, startAssociation, endAssociation);
 
             // act
             var datesFinal = association.GetDatesAssociationInPeriod(startDate, endDate);

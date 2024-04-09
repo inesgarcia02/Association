@@ -10,7 +10,7 @@ namespace Domain.Model
         public long Id {get; set;}
         private long _colaboratorId;
         private long _projectId;
-        private IPeriod _period;
+        private Period _period;
 
         
         public DateOnly StartDate {
@@ -29,11 +29,11 @@ namespace Domain.Model
             get { return _projectId; }
         }
 
-        public Association(long colaboratorId, long projectId, IPeriod period)
+        public Association(long colaboratorId, long projectId, DateOnly startDate, DateOnly endDate)
         {
             _colaboratorId = colaboratorId;
             _projectId = projectId;
-            _period = period;
+            _period = new Period(startDate, endDate);
         }
 
 

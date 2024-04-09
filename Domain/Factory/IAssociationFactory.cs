@@ -4,6 +4,6 @@ namespace Domain.Factory
 {
     public interface IAssociationFactory
     {
-        Association NewAssociation(long colaboratorId, long projectId, IPeriod period);
+        Association NewAssociation(long colaboratorId, long projectId, DateOnly startDate, DateOnly endDate);
     }
 }
