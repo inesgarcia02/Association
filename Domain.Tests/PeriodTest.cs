@@ -23,6 +23,8 @@ namespace Domain.Tests
 
             // assert
             Assert.NotNull(p);
+            Assert.Equal(p.StartDate, startDate);
+            Assert.Equal(p.EndDate, endDate);
         }
 
 

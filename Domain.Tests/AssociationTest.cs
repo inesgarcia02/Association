@@ -21,6 +21,8 @@ namespace Domain.Tests
 
             // assert
             Assert.NotNull(a);
+            Assert.Equal(a.ColaboratorId, colaboratorId);
+            Assert.Equal(a.ProjectId, projectId);
         }
 
         // [Theory]
