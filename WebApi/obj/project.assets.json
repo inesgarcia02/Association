@@ -428,19 +428,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\hpereira\\.nuget\\packages\\": {}
+    "C:\\Users\\igarcia\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\hpereira\\Source\\Association\\WebApi\\WebApi.csproj",
+      "projectUniqueName": "C:\\Users\\igarcia\\projetos\\Associacao\\WebApi\\WebApi.csproj",
       "projectName": "WebApi",
-      "projectPath": "C:\\Users\\hpereira\\Source\\Association\\WebApi\\WebApi.csproj",
-      "packagesPath": "C:\\Users\\hpereira\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\hpereira\\Source\\Association\\WebApi\\obj\\",
+      "projectPath": "C:\\Users\\igarcia\\projetos\\Associacao\\WebApi\\WebApi.csproj",
+      "packagesPath": "C:\\Users\\igarcia\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\igarcia\\projetos\\Associacao\\WebApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\hpereira\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\igarcia\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -493,7 +493,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
