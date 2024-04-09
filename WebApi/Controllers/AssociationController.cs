@@ -9,50 +9,50 @@ namespace WebApi.Controllers
     [ApiController]
     public class AssociationController : ControllerBase
     {   
-        private readonly AssociatonService _associacaoService;
+        private readonly AssociatonService _associationService;
 
         List<string> _errorMessages = new List<string>();
 
-        public AssociationController(AssociatonService associacaoService)
+        public AssociationController(AssociatonService associationService)
         {
-            _associacaoService = associacaoService;
+            _associationService = associationService;
         }
 
         // GET: api/Association
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AssociationDTO>>> GetAssociacoes()
+        public async Task<ActionResult<IEnumerable<AssociationDTO>>> GetAssociations()
         {
-            IEnumerable<AssociationDTO> associacoesDTO = await _associacaoService.GetAll();
+            IEnumerable<AssociationDTO> associationsDTO = await _associationService.GetAll();
 
-            return Ok(associacoesDTO);
+            return Ok(associationsDTO);
         }
 
 
         // GET: api/Association/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<AssociationDTO>> GetAssociacaoById(long id)
+        public async Task<ActionResult<AssociationDTO>> GetAssociationById(long id)
         {
-            var associacaoDTO = await _associacaoService.GetById(id);
+            var associationDTO = await _associationService.GetById(id);
 
-            if (associacaoDTO == null)
+            if (associationDTO == null)
             {
                 return NotFound();
             }
 
-            return Ok(associacaoDTO);
+            return Ok(associationDTO);
         }
 
-        // // PUT: api/Colaborator/a@bc
+        // // PUT: api/Association/a@bc
         // // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         // [HttpPut("{email}")]
-        // public async Task<IActionResult> PutColaborator(long id, HolidayDTO HolidayDTO)
+        // public async Task<IActionResult> PutAssociation(long id, HolidayDTO HolidayDTO)
         // {
         //     if (id != HolidayDTO.Id)
         //     {
         //         return BadRequest();
         //     }
 
-        //     bool wasUpdated = await _associacaoService.Update(id, HolidayDTO, _errorMessages);
+        //     bool wasUpdated = await _associationService.Update(id, HolidayDTO, _errorMessages);
 
         //     if (!wasUpdated /* && _errorMessages.Any() */)
         //     {
@@ -62,15 +62,15 @@ namespace WebApi.Controllers
         //     return Ok();
         // }
 
-        //POST: api/Holiday
+        //POST: api/Association
         //To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<AssociationDTO>> PostAssociacao(AssociationDTO associacaoDTO)
+        public async Task<ActionResult<AssociationDTO>> PostAssociation(AssociationDTO associationDTO)
         {
-            AssociationDTO asssociacaoResultDTO = await _associacaoService.Add(associacaoDTO);
+            AssociationDTO associationResultDTO = await _associationService.Add(associationDTO);
 
-            if(asssociacaoResultDTO != null)
-                return CreatedAtAction(nameof(GetAssociacaoById), new { id = asssociacaoResultDTO.Id }, asssociacaoResultDTO);
+            if(associationResultDTO != null)
+                return CreatedAtAction(nameof(GetAssociationById), new { id = associationResultDTO.Id }, associationResultDTO);
             else
                 return BadRequest(_errorMessages);
         }
