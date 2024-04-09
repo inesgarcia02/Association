@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\igarcia\\projetos\\Associacao\\Domain\\Domain.csproj": {}
+    "C:\\Users\\hpereira\\Source\\Association\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\igarcia\\projetos\\Associacao\\Domain\\Domain.csproj": {
+    "C:\\Users\\hpereira\\Source\\Association\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\igarcia\\projetos\\Associacao\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\hpereira\\Source\\Association\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\igarcia\\projetos\\Associacao\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\igarcia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\igarcia\\projetos\\Associacao\\Domain\\obj\\",
+        "projectPath": "C:\\Users\\hpereira\\Source\\Association\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\hpereira\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\hpereira\\Source\\Association\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\igarcia\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\hpereira\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -58,7 +58,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

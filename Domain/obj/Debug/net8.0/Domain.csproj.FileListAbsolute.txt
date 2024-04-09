@@ -46,3 +46,15 @@ C:\Users\igarcia\projetos\Associacao\Domain\bin\Debug\net8.0\Domain.deps.json
 C:\Users\igarcia\projetos\Associacao\Domain\bin\Debug\net8.0\Domain.dll
 C:\Users\igarcia\projetos\Associacao\Domain\bin\Debug\net8.0\Domain.pdb
 C:\Users\igarcia\projetos\Associacao\Domain\obj\Debug\net8.0\ref\Domain.dll
+C:\Users\hpereira\Source\Association\Domain\bin\Debug\net8.0\Domain.deps.json
+C:\Users\hpereira\Source\Association\Domain\bin\Debug\net8.0\Domain.dll
+C:\Users\hpereira\Source\Association\Domain\bin\Debug\net8.0\Domain.pdb
+C:\Users\hpereira\Source\Association\Domain\obj\Debug\net8.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hpereira\Source\Association\Domain\obj\Debug\net8.0\Domain.AssemblyInfoInputs.cache
+C:\Users\hpereira\Source\Association\Domain\obj\Debug\net8.0\Domain.AssemblyInfo.cs
+C:\Users\hpereira\Source\Association\Domain\obj\Debug\net8.0\Domain.csproj.CoreCompileInputs.cache
+C:\Users\hpereira\Source\Association\Domain\obj\Debug\net8.0\Domain.sourcelink.json
+C:\Users\hpereira\Source\Association\Domain\obj\Debug\net8.0\Domain.dll
+C:\Users\hpereira\Source\Association\Domain\obj\Debug\net8.0\refint\Domain.dll
+C:\Users\hpereira\Source\Association\Domain\obj\Debug\net8.0\Domain.pdb
+C:\Users\hpereira\Source\Association\Domain\obj\Debug\net8.0\ref\Domain.dll

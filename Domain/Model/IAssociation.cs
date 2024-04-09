@@ -11,5 +11,7 @@ namespace Domain.Model
         (DateOnly start, DateOnly end) GetDatesAssociationInPeriod(DateOnly startDate, DateOnly endDate);
         //List<IColaborator> AddColaboradorEmPeriodo(List<IColaborator> colaborators, DateOnly startDate, DateOnly endDate);
         bool IsAssociationInPeriod(DateOnly startDate, DateOnly endDate);
+
+        Period Period{ get; set; }
     }
 }
