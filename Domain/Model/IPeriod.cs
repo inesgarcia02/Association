@@ -7,5 +7,7 @@ namespace Domain.Model
 {
     public interface IPeriod
     {
+        DateOnly StartDate { get; }
+        DateOnly EndDate { get; }
     }
 }
