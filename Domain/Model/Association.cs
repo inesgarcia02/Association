@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,33 +8,39 @@ namespace Domain.Model
 {
     public class Association : IAssociation
     {
-        public long Id {get; set;}
+        public long Id { get; set; }
         private long _colaboratorId;
         private long _projectId;
         private Period _period;
 
-        
-        public DateOnly StartDate {
+
+        public DateOnly StartDate
+        {
             get { return _period.StartDate; }
         }
 
-        public DateOnly EndDate {
+        public DateOnly EndDate
+        {
             get { return _period.EndDate; }
         }
 
-        public long ColaboratorId {
+        public long ColaboratorId
+        {
             get { return _colaboratorId; }
         }
 
-        public long ProjectId {
+        public long ProjectId
+        {
             get { return _projectId; }
         }
 
-        public Association(long colaboratorId, long projectId, DateOnly startDate, DateOnly endDate)
+        public Period Period { get { return _period; } set { _period = value; } }
+
+        public Association(long colaboratorId, long projectId, DateOnly periodStart, DateOnly periodEnd)
         {
             _colaboratorId = colaboratorId;
             _projectId = projectId;
-            _period = new Period(startDate, endDate);
+            _period = new Period(periodStart, periodEnd);
         }
 
 
@@ -61,7 +68,7 @@ namespace Domain.Model
 
 
         public bool IsAssociationInPeriod(DateOnly startDate, DateOnly endDate)
-        {   
+        {
             if (StartDate >= startDate && EndDate <= endDate ||
             StartDate <= startDate && EndDate > startDate ||
             StartDate < endDate && EndDate >= endDate)
