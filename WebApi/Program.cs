@@ -6,6 +6,7 @@ using Domain.IRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
+using WebApi.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,8 @@ builder.Services.AddTransient<IAssociationFactory, AssociationFactory>();
 builder.Services.AddTransient<AssociationMapper>();
 builder.Services.AddTransient<AssociatonService>();
 
+builder.Services.AddSingleton<IRabbitMQConsumerController, RabbitMQConsumerController> ();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -48,6 +51,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+var rabbitMQConsumerService= app.Services.GetRequiredService<IRabbitMQConsumerController>();
+//rabbitMQConsumerService.StartConsuming();
 
 app.MapControllers();
 
