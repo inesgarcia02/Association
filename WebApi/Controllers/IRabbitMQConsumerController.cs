@@ -7,6 +7,6 @@ namespace WebApi.Controllers
 {
     public interface IRabbitMQConsumerController
     {
-        
+        public void StartConsuming();
     }
 }
