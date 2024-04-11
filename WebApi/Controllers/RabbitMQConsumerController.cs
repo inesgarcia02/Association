@@ -16,7 +16,7 @@ namespace WebApi.Controllers
             _connection = _factory.CreateConnection();
             _channel = _connection.CreateModel();
 
-            //_channel.ExchangeDeclare(exchange: "logs", type: ExchangeType.Fanout);
+            _channel.ExchangeDeclare(exchange: "logs", type: ExchangeType.Fanout);
 
             _channel.QueueDeclare(queue: "hello",
                                 durable: true,
@@ -24,9 +24,9 @@ namespace WebApi.Controllers
                                 autoDelete: false,
                                 arguments: null);
             
-            // _channel.QueueBind(queue: "hello",
-            //       exchange: "logs",
-            //       routingKey: string.Empty);
+            _channel.QueueBind(queue: "hello",
+                  exchange: "logs",
+                  routingKey: string.Empty);
 
             Console.WriteLine(" [*] Waiting for messages.");
         }
