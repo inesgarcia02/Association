@@ -65,11 +65,12 @@ public class AssociationRepository : GenericRepository<Association>, IAssociatio
 
             await _context.SaveChangesAsync();
 
-            _associationAmqpGateway.Publish();
+            
 
             AssociationDataModel associationDataModelSaved = associationDataModelEntityEntry.Entity;
 
             Association associationSaved = _associationMapper.ToDomain(associationDataModelSaved);
+            _associationAmqpGateway.Publish(associationSaved);
 
             return associationSaved;
         }
