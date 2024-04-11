@@ -4,16 +4,19 @@ using DataModel.Mapper;
 using Microsoft.EntityFrameworkCore;
 using DataModel.Model;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Gateway;
 
 namespace DataModel.Repository;
 
 public class AssociationRepository : GenericRepository<Association>, IAssociationRepository
 {
+    private AssociationAmqpGateway _associationAmqpGateway;
     AssociationMapper _associationMapper;
 
-    public AssociationRepository(AbsanteeContext context, AssociationMapper mapper) : base(context!)
+    public AssociationRepository(AbsanteeContext context, AssociationMapper mapper, AssociationAmqpGateway associationAmqpGateway) : base(context!)
     {
         _associationMapper = mapper;
+        _associationAmqpGateway = associationAmqpGateway;
     }
 
     public async Task<IEnumerable<Association>> GetAssociationsAsync()
@@ -61,6 +64,8 @@ public class AssociationRepository : GenericRepository<Association>, IAssociatio
             EntityEntry<AssociationDataModel> associationDataModelEntityEntry = _context.Set<AssociationDataModel>().Add(associationDataModel);
 
             await _context.SaveChangesAsync();
+
+            _associationAmqpGateway.Publish();
 
             AssociationDataModel associationDataModelSaved = associationDataModelEntityEntry.Entity;
 

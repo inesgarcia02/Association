@@ -3,6 +3,7 @@ using DataModel.Mapper;
 using DataModel.Repository;
 using Domain.Factory;
 using Domain.IRepository;
+using Gateway;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -36,6 +37,7 @@ builder.Services.AddTransient<IAssociationRepository, AssociationRepository>();
 builder.Services.AddTransient<IAssociationFactory, AssociationFactory>();
 builder.Services.AddTransient<AssociationMapper>();
 builder.Services.AddTransient<AssociatonService>();
+builder.Services.AddTransient<AssociationAmqpGateway>();
 
 builder.Services.AddSingleton<IRabbitMQConsumerController, RabbitMQConsumerController> ();
 
