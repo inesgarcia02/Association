@@ -10,13 +10,12 @@ namespace DataModel.Repository;
 
 public class AssociationRepository : GenericRepository<Association>, IAssociationRepository
 {
-    private AssociationAmqpGateway _associationAmqpGateway;
+   
     AssociationMapper _associationMapper;
 
-    public AssociationRepository(AbsanteeContext context, AssociationMapper mapper, AssociationAmqpGateway associationAmqpGateway) : base(context!)
+    public AssociationRepository(AbsanteeContext context, AssociationMapper mapper) : base(context!)
     {
         _associationMapper = mapper;
-        _associationAmqpGateway = associationAmqpGateway;
     }
 
     public async Task<IEnumerable<Association>> GetAssociationsAsync()
@@ -70,7 +69,6 @@ public class AssociationRepository : GenericRepository<Association>, IAssociatio
             AssociationDataModel associationDataModelSaved = associationDataModelEntityEntry.Entity;
 
             Association associationSaved = _associationMapper.ToDomain(associationDataModelSaved);
-            _associationAmqpGateway.Publish(associationSaved);
 
             return associationSaved;
         }

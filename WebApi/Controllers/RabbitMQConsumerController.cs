@@ -1,3 +1,4 @@
+using Application.DTO;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
@@ -38,8 +39,8 @@ namespace WebApi.Controllers
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
+                AssociationAmqpDTO associationAmqpDTO = AssociationAmqpDTO.Deserialize(message);
                 Console.WriteLine($" [x] Received {message}");
-
                 _channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
             };
             _channel.BasicConsume(queue: "hello",

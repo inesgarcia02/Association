@@ -4,14 +4,17 @@ using Domain.Model;
 using Application.DTO;
 
 using Domain.IRepository;
+using Gateway;
 
 public class AssociatonService
 {
+    private AssociationAmqpGateway _associationAmqpGateway;
     private readonly IAssociationRepository _associationRepository;
 
-    public AssociatonService(IAssociationRepository associationRepository)
+    public AssociatonService(IAssociationRepository associationRepository, AssociationAmqpGateway associationAmqpGateway)
     {
         _associationRepository = associationRepository;
+        _associationAmqpGateway = associationAmqpGateway;
     }
 
     public async Task<IEnumerable<AssociationDTO>> GetAll()
@@ -45,9 +48,12 @@ public class AssociatonService
 
         AssociationDTO assoDTO = AssociationDTO.ToDTO(associationSaved);
 
+        string associationAmqpDTO = AssociationAmqpDTO.Serialize(assoDTO);
+        _associationAmqpGateway.Publish(associationAmqpDTO);
+
         return assoDTO;
     }
-    
+
 
     // public async Task<bool> Update(long id, AssociationDTO AssociacaoDTO, List<string> errorMessages)
     // {
