@@ -53,7 +53,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 var rabbitMQConsumerService= app.Services.GetRequiredService<IRabbitMQConsumerController>();
-//rabbitMQConsumerService.StartConsuming();
+rabbitMQConsumerService.StartConsuming();
 
 app.MapControllers();
 
