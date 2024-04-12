@@ -39,35 +39,32 @@ public class AssociationService
         return null;
     }
 
-    public async Task<AssociationDTO> Add(AssociationDTO associationDTO)
+    public async Task<AssociationDTO> Add(AssociationDTO associationDTO, List<string> errorMessages)
     {
+        bool pExists = await _associationRepository.AssociationExists(associationDTO.Id);
+        if (pExists)
+        {
+            errorMessages.Add("Association already exists.");
+            return null;
+        }
 
-        Association association = AssociationDTO.ToDomain(associationDTO);
-
-        Association associationSaved = await _associationRepository.Add(association);
-
-        AssociationDTO assoDTO = AssociationDTO.ToDTO(associationSaved);
-
-        string associationAmqpDTO = AssociationAmqpDTO.Serialize(assoDTO);
-        _associationAmqpGateway.Publish(associationAmqpDTO);
-
-        return assoDTO;
-    }
-
-    public async Task HandleMessage(AssociationDTO associationDTO)
-    {
-        Association existingAssociation = await _associationRepository.GetAssociationsByIdAsync(associationDTO.Id);
-
-        if (existingAssociation == null)
+        try
         {
             Association association = AssociationDTO.ToDomain(associationDTO);
+
             Association associationSaved = await _associationRepository.Add(association);
 
-            // await _messagePublisher.PublishNewAssociationMessage(associationDTO);
+            AssociationDTO assoDTO = AssociationDTO.ToDTO(associationSaved);
+
+            string associationAmqpDTO = AssociationAmqpDTO.Serialize(assoDTO);
+            _associationAmqpGateway.Publish(associationAmqpDTO);
+
+            return assoDTO;
         }
-        else
+        catch (ArgumentException ex)
         {
-            Console.WriteLine($"Association with identifier {associationDTO.Id} already exists in the database.");
+            errorMessages.Add(ex.Message);
+            return null;
         }
     }
 

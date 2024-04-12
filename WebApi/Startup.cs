@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 using DataModel.Repository;
+using Application.Services;
 
 namespace Domain
 {
@@ -24,6 +25,7 @@ namespace Domain
 				{
 					options.UseSqlServer(Configuration["ConnectionString"]);
 				});
+			services.AddScoped<AssociationService>();
 		}
 
 		public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)

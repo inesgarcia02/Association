@@ -67,7 +67,7 @@ namespace WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<AssociationDTO>> PostAssociation(AssociationDTO associationDTO)
         {
-            AssociationDTO associationResultDTO = await _associationService.Add(associationDTO);
+            AssociationDTO associationResultDTO = await _associationService.Add(associationDTO, _errorMessages);
 
             if(associationResultDTO != null)
                 return CreatedAtAction(nameof(GetAssociationById), new { id = associationResultDTO.Id }, associationResultDTO);

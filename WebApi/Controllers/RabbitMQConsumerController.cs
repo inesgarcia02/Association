@@ -1,4 +1,5 @@
 using Application.DTO;
+using Application.Services;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
@@ -6,13 +7,16 @@ namespace WebApi.Controllers
 {
     public class RabbitMQConsumerController : IRabbitMQConsumerController
     {
+        private List<string> _errorMessages = new List<string>();
+        private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly ConnectionFactory _factory;
         private readonly IConnection _connection;
         private readonly IModel _channel;
         private readonly string _queueName;
 
-        public RabbitMQConsumerController()
+        public RabbitMQConsumerController(IServiceScopeFactory serviceScopeFactory)
         {
+            _serviceScopeFactory = serviceScopeFactory;
             _factory = new ConnectionFactory { HostName = "localhost" };
             _connection = _factory.CreateConnection();
             _channel = _connection.CreateModel();
@@ -52,11 +56,22 @@ namespace WebApi.Controllers
                 {
                     case "Project":
                         ProjectDTO projectDTO = ProjectAmqpDTO.ToDTO(message);
-                        // chamar o serviço
+                        // using (var scope = _serviceScopeFactory.CreateScope())
+                        // {
+                        //     var projectService = scope.ServiceProvider.GetRequiredService<ProjectService>();
+
+                        //     ProjectDTO projectResultDTO = projectService.Add(deserializedObject, _errorMessages).Result;
+                        // }
                         break;
                     case "Association":
                         AssociationDTO associationDTO = AssociationAmqpDTO.Deserialize(message);
-                        // chamar o serviço
+                        using (var scope = _serviceScopeFactory.CreateScope())
+                        {
+                            var associationService = scope.ServiceProvider.GetRequiredService<AssociationService>();
+
+                            //ProjectDTO projectResultDTO = projectService.Add(deserializedObject, _errorMessages).Result;
+                            associationService.Add(associationDTO, _errorMessages);
+                        }
                         break;
 
                     case "Colaborator":
