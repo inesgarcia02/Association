@@ -11,13 +11,13 @@ public class AssociationAmqpGateway
         _factory = new ConnectionFactory { HostName = "localhost" };
         _connection = _factory.CreateConnection();
         _channel = _connection.CreateModel();
-        _channel.ExchangeDeclare(exchange: "logs", type: ExchangeType.Fanout);
+        _channel.ExchangeDeclare(exchange: "associationLogs", type: ExchangeType.Fanout);
     }
 
     public void Publish(string association)
     {
         var body = Encoding.UTF8.GetBytes(association);
-        _channel.BasicPublish(exchange: "logs",
+        _channel.BasicPublish(exchange: "associationLogs",
                               routingKey: string.Empty,
                               basicProperties: null,
                               body: body);

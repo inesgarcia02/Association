@@ -49,7 +49,7 @@ builder.Services.AddTransient<AssociationAmqpGateway>();
 //     }
 // });
 
-builder.Services.AddSingleton<IRabbitMQConsumerController>();
+builder.Services.AddSingleton<IRabbitMQConsumerController, RabbitMQConsumerController>();
 
 var app = builder.Build();
 

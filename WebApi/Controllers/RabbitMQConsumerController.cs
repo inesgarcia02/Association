@@ -5,53 +5,77 @@ using System.Text;
 using Application.Services;
 using DataModel.Repository;
 using Domain.Model;
+using Microsoft.Build.Evaluation;
 
 namespace WebApi.Controllers
 {
-    public class RabbitMQConsumerController : IRabbitMQConsumerController 
+    public class RabbitMQConsumerController : IRabbitMQConsumerController
     {
-        private readonly AssociationService _associationService;
-
         private readonly ConnectionFactory _factory;
         private readonly IConnection _connection;
         private readonly IModel _channel;
         private readonly string _queueName;
 
-        public RabbitMQConsumerController(AssociationService associationService)
+        public RabbitMQConsumerController()
         {
-            _associationService = associationService;
-            // _contextFactory = contextFactory;
-
             _factory = new ConnectionFactory { HostName = "localhost" };
             _connection = _factory.CreateConnection();
             _channel = _connection.CreateModel();
 
-            _channel.ExchangeDeclare(exchange: "logs", type: ExchangeType.Fanout);
+            _channel.ExchangeDeclare(exchange: "associationLogs", type: ExchangeType.Fanout);
+            _channel.ExchangeDeclare(exchange: "projectLogs", type: ExchangeType.Fanout);
 
             _queueName = _channel.QueueDeclare().QueueName;
-            
+
             _channel.QueueBind(queue: _queueName,
-                  exchange: "logs",
+                  exchange: "associationLogs",
                   routingKey: string.Empty);
+
+            _channel.QueueBind(queue: _queueName,
+            exchange: "projectLogs",
+            routingKey: string.Empty);
 
             Console.WriteLine(" [*] Waiting for messages.");
         }
 
         public void StartConsuming()
-        {         
+        {
             var consumer = new EventingBasicConsumer(_channel);
-            consumer.Received += async (model, ea) =>
+            consumer.Received += (model, ea) =>
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
-                AssociationDTO associationDTO = AssociationAmqpDTO.Deserialize(message);
-                Console.WriteLine($" [x] Received {message}");
 
-                // await _associationService.HandleMessage(associationDTO);
+                var source = GetSource(message);
+
+                switch (source)
+                {
+                    case "Project":
+                        ProjectDTO projectDTO = ProjectAmqpDTO.ToDTO(message);
+                        // chamar o serviço
+                        break;
+                    case "Association":
+                        AssociationDTO associationDTO = AssociationAmqpDTO.Deserialize(message);
+                        // chamar o serviço
+                        break;
+                }
+
+                Console.WriteLine($" [x] Received {message}");
             };
             _channel.BasicConsume(queue: _queueName,
                                 autoAck: true,
                                 consumer: consumer);
+        }
+
+
+        public string GetSource(string message)
+        {
+            if (message.Contains("Identifier\":\"Project"))
+            {
+                return "Project";
+            }
+
+            return "Association";
         }
     }
 }
