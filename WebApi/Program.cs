@@ -36,10 +36,20 @@ builder.Services.AddSwaggerGen(opt =>
 builder.Services.AddTransient<IAssociationRepository, AssociationRepository>();
 builder.Services.AddTransient<IAssociationFactory, AssociationFactory>();
 builder.Services.AddTransient<AssociationMapper>();
-builder.Services.AddTransient<AssociatonService>();
+builder.Services.AddTransient<AssociationService>();
 builder.Services.AddTransient<AssociationAmqpGateway>();
 
-builder.Services.AddSingleton<IRabbitMQConsumerController, RabbitMQConsumerController> ();
+// builder.Services.AddSingleton<IRabbitMQConsumerController>(sp =>
+// {
+//     using (var scope = sp.CreateScope())
+//     {
+//         var scopedServices = scope.ServiceProvider;
+//         var associationService = scopedServices.GetRequiredService<AssociationService>();
+//         return new RabbitMQConsumerController(associationService);
+//     }
+// });
+
+builder.Services.AddSingleton<IRabbitMQConsumerController>();
 
 var app = builder.Build();
 
