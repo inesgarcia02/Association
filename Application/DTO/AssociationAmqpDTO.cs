@@ -27,9 +27,9 @@ namespace Application.DTO
             return jsonMessage;
         }
 
-        static public AssociationAmqpDTO Deserialize(string jsonMessage)
+        static public AssociationDTO Deserialize(string jsonMessage)
         {
-            var associationAmqpDTO = JsonSerializer.Deserialize<AssociationAmqpDTO>(jsonMessage);
+            var associationAmqpDTO = JsonSerializer.Deserialize<AssociationDTO>(jsonMessage);
             return associationAmqpDTO!;
         }
 

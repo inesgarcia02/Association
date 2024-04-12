@@ -6,12 +6,12 @@ using Application.DTO;
 using Domain.IRepository;
 using Gateway;
 
-public class AssociatonService
+public class AssociationService
 {
     private AssociationAmqpGateway _associationAmqpGateway;
     private readonly IAssociationRepository _associationRepository;
 
-    public AssociatonService(IAssociationRepository associationRepository, AssociationAmqpGateway associationAmqpGateway)
+    public AssociationService(IAssociationRepository associationRepository, AssociationAmqpGateway associationAmqpGateway)
     {
         _associationRepository = associationRepository;
         _associationAmqpGateway = associationAmqpGateway;
@@ -52,6 +52,23 @@ public class AssociatonService
         _associationAmqpGateway.Publish(associationAmqpDTO);
 
         return assoDTO;
+    }
+
+    public async Task HandleMessage(AssociationDTO associationDTO)
+    {
+        Association existingAssociation = await _associationRepository.GetAssociationsByIdAsync(associationDTO.Id);
+
+        if (existingAssociation == null)
+        {
+            Association association = AssociationDTO.ToDomain(associationDTO);
+            Association associationSaved = await _associationRepository.Add(association);
+
+            // await _messagePublisher.PublishNewAssociationMessage(associationDTO);
+        }
+        else
+        {
+            Console.WriteLine($"Association with identifier {associationDTO.Id} already exists in the database.");
+        }
     }
 
 

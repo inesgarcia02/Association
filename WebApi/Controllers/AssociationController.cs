@@ -9,11 +9,11 @@ namespace WebApi.Controllers
     [ApiController]
     public class AssociationController : ControllerBase
     {   
-        private readonly AssociatonService _associationService;
+        private readonly AssociationService _associationService;
 
         List<string> _errorMessages = new List<string>();
 
-        public AssociationController(AssociatonService associationService)
+        public AssociationController(AssociationService associationService)
         {
             _associationService = associationService;
         }
