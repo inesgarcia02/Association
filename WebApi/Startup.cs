@@ -26,6 +26,7 @@ namespace Domain
 					options.UseSqlServer(Configuration["ConnectionString"]);
 				});
 			services.AddScoped<AssociationService>();
+			services.AddScoped<ProjectService>();
 		}
 
 		public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
