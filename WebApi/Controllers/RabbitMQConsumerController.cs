@@ -33,7 +33,6 @@ namespace WebApi.Controllers
 
             _channel.QueueBind(queue: _queueName,
             exchange: "project",
-            exchange: "project",
             routingKey: string.Empty);
 
             _channel.QueueBind(queue: _queueName,
