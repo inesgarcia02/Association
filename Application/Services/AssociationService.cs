@@ -44,6 +44,7 @@ public class AssociationService
         bool pExists = await _associationRepository.AssociationExists(associationDTO.Id);
         if (pExists)
         {
+            Console.WriteLine("Association already exists.");
             errorMessages.Add("Association already exists.");
             return null;
         }

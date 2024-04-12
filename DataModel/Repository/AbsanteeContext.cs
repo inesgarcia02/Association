@@ -20,6 +20,8 @@ public class AbsanteeContext : DbContext
 	public virtual DbSet<PeriodDataModel> PeriodAssociations { get; set; } = null!;
 	public virtual DbSet<AssociationDataModel> Associations {get; set; } = null!;
 	public virtual DbSet<ColaboratorsIdDataModel> ColaboratorsId { get; set; } = null!;
+	public virtual DbSet<ProjectDataModel> Projects {get; set; } = null!;
+
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

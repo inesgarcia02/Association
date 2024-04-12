@@ -33,6 +33,7 @@ namespace WebApi.Controllers
 
             _channel.QueueBind(queue: _queueName,
             exchange: "project",
+            exchange: "project",
             routingKey: string.Empty);
 
             _channel.QueueBind(queue: _queueName,
@@ -56,12 +57,12 @@ namespace WebApi.Controllers
                 {
                     case "Project":
                         ProjectDTO projectDTO = ProjectAmqpDTO.ToDTO(message);
-                        // using (var scope = _serviceScopeFactory.CreateScope())
-                        // {
-                        //     var projectService = scope.ServiceProvider.GetRequiredService<ProjectService>();
+                        using (var scope = _serviceScopeFactory.CreateScope())
+                        {
+                            var projectService = scope.ServiceProvider.GetRequiredService<ProjectService>();
 
-                        //     ProjectDTO projectResultDTO = projectService.Add(deserializedObject, _errorMessages).Result;
-                        // }
+                            projectService.Add(projectDTO.Id);
+                        }
                         break;
                     case "Association":
                         AssociationDTO associationDTO = AssociationAmqpDTO.Deserialize(message);

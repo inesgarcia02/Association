@@ -44,6 +44,10 @@ builder.Services.AddSingleton<IRabbitMQConsumerController, RabbitMQConsumerContr
 builder.Services.AddTransient<IColaboratorsIdRepository, ColaboratorsIdRepository>();
 builder.Services.AddTransient<ColaboratorsIdMapper>();
 builder.Services.AddTransient<ColaboratorIdService>();
+builder.Services.AddTransient<IProjectRepository, ProjectRepository>();
+builder.Services.AddTransient<ProjectMapper>();
+builder.Services.AddTransient<ProjectService>();
+
 // builder.Services.AddSingleton<IRabbitMQConsumerController>(sp =>
 // {
 //     using (var scope = sp.CreateScope())
