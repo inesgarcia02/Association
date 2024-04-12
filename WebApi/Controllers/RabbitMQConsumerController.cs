@@ -23,7 +23,7 @@ namespace WebApi.Controllers
 
             _channel.ExchangeDeclare(exchange: "associationLogs", type: ExchangeType.Fanout);
             _channel.ExchangeDeclare(exchange: "project", type: ExchangeType.Fanout);
-            _channel.ExchangeDeclare(exchange: "collabLogs", type: ExchangeType.Fanout);
+            _channel.ExchangeDeclare(exchange: "logs", type: ExchangeType.Fanout);
 
             _queueName = _channel.QueueDeclare().QueueName;
 
@@ -36,7 +36,7 @@ namespace WebApi.Controllers
             routingKey: string.Empty);
 
             _channel.QueueBind(queue: _queueName,
-            exchange: "collabLogs",
+            exchange: "logs",
             routingKey: string.Empty);
 
             Console.WriteLine(" [*] Waiting for messages.");
@@ -45,7 +45,7 @@ namespace WebApi.Controllers
         public void StartConsuming()
         {
             var consumer = new EventingBasicConsumer(_channel);
-            consumer.Received += (model, ea) =>
+            consumer.Received +=  async (model, ea) =>
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
@@ -70,13 +70,16 @@ namespace WebApi.Controllers
                             var associationService = scope.ServiceProvider.GetRequiredService<AssociationService>();
 
                             //ProjectDTO projectResultDTO = projectService.Add(deserializedObject, _errorMessages).Result;
-                            associationService.Add(associationDTO, _errorMessages);
+                            await associationService.Add(associationDTO, _errorMessages);
                         }
                         break;
 
                     case "Colaborator":
-                        //AssociationDTO associationDTO = AssociationAmqpDTO.Deserialize(message);
-                        // chamar o serviço
+                        using (var scope = _serviceScopeFactory.CreateScope())
+                        {
+                            var colaboratorService = scope.ServiceProvider.GetRequiredService<ColaboratorIdService>();
+                            await colaboratorService.Add(long.Parse(message));
+                        }
                         break;
                 }
 
@@ -93,7 +96,7 @@ namespace WebApi.Controllers
             {
                 return "Project";
             }
-            else if (message.Contains("Identifier\":\"Colaborator"))
+            else /*if (message.Contains("id:"))*/
             {
                 return "Colaborator";
             }

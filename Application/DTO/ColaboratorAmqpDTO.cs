@@ -37,14 +37,14 @@ namespace Application.DTO
             return jsonMessage;
         }
 
-        public static ColaboratorAmqpDTO Deserialize(string colabDTOString)
+        public static ColaboratorDTO Deserialize(string colabDTOString)
         {
-            return JsonSerializer.Deserialize<ColaboratorAmqpDTO>(colabDTOString)!;
+            return JsonSerializer.Deserialize<ColaboratorDTO>(colabDTOString)!;
         }
 
         public static ColaboratorDTO ToDTO(string colabDTOString)
         {
-            ColaboratorAmqpDTO colabGatewayDTO = Deserialize(colabDTOString);
+            ColaboratorDTO colabGatewayDTO = Deserialize(colabDTOString);
             ColaboratorDTO colabDTO = new ColaboratorDTO(colabGatewayDTO.Id, colabGatewayDTO.Name, colabGatewayDTO.Email,
                                                     colabGatewayDTO.Street, colabGatewayDTO.PostalCode);
             return colabDTO;
