@@ -39,6 +39,11 @@ builder.Services.AddTransient<AssociationMapper>();
 builder.Services.AddTransient<AssociationService>();
 builder.Services.AddTransient<AssociationAmqpGateway>();
 
+
+builder.Services.AddSingleton<IRabbitMQConsumerController, RabbitMQConsumerController>();
+builder.Services.AddTransient<IColaboratorsIdRepository, ColaboratorsIdRepository>();
+builder.Services.AddTransient<ColaboratorsIdMapper>();
+builder.Services.AddTransient<ColaboratorIdService>();
 // builder.Services.AddSingleton<IRabbitMQConsumerController>(sp =>
 // {
 //     using (var scope = sp.CreateScope())
@@ -64,7 +69,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-var rabbitMQConsumerService= app.Services.GetRequiredService<IRabbitMQConsumerController>();
+var rabbitMQConsumerService = app.Services.GetRequiredService<IRabbitMQConsumerController>();
 rabbitMQConsumerService.StartConsuming();
 
 app.MapControllers();
