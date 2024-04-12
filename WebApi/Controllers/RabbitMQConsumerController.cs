@@ -2,11 +2,6 @@ using Application.DTO;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
-using Application.Services;
-using DataModel.Repository;
-using Domain.Model;
-using Microsoft.Build.Evaluation;
-
 namespace WebApi.Controllers
 {
     public class RabbitMQConsumerController : IRabbitMQConsumerController
@@ -24,6 +19,7 @@ namespace WebApi.Controllers
 
             _channel.ExchangeDeclare(exchange: "associationLogs", type: ExchangeType.Fanout);
             _channel.ExchangeDeclare(exchange: "projectLogs", type: ExchangeType.Fanout);
+            _channel.ExchangeDeclare(exchange: "collabLogs", type: ExchangeType.Fanout);
 
             _queueName = _channel.QueueDeclare().QueueName;
 
@@ -33,6 +29,10 @@ namespace WebApi.Controllers
 
             _channel.QueueBind(queue: _queueName,
             exchange: "projectLogs",
+            routingKey: string.Empty);
+
+            _channel.QueueBind(queue: _queueName,
+            exchange: "collabLogs",
             routingKey: string.Empty);
 
             Console.WriteLine(" [*] Waiting for messages.");
@@ -58,6 +58,11 @@ namespace WebApi.Controllers
                         AssociationDTO associationDTO = AssociationAmqpDTO.Deserialize(message);
                         // chamar o serviço
                         break;
+
+                    case "Colaborator":
+                        //AssociationDTO associationDTO = AssociationAmqpDTO.Deserialize(message);
+                        // chamar o serviço
+                        break;
                 }
 
                 Console.WriteLine($" [x] Received {message}");
@@ -67,12 +72,15 @@ namespace WebApi.Controllers
                                 consumer: consumer);
         }
 
-
         public string GetSource(string message)
         {
             if (message.Contains("Identifier\":\"Project"))
             {
                 return "Project";
+            }
+            else if (message.Contains("Identifier\":\"Colaborator"))
+            {
+                return "Colaborator";
             }
 
             return "Association";
