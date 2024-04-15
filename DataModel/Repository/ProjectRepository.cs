@@ -17,15 +17,15 @@ public class ProjectRepository : GenericRepository<ProjectRepository>, IProjectR
         _projectMapper = mapper;
     }
 
-    public async Task<IEnumerable<long>> GetProjectsIdAsync()
+    public async Task<IEnumerable<Project>> GetProjectsIdAsync()
     {
         try {
             IEnumerable<ProjectDataModel> projectsDataModel = await _context.Set<ProjectDataModel>()
                     .ToListAsync();
 
-            IEnumerable<long> projectId = _projectMapper.ToDomain(projectsDataModel);
+            IEnumerable<Project> projects = _projectMapper.ToDomain(projectsDataModel);
 
-            return projectId;
+            return projects;
         }
         catch
         {
@@ -33,10 +33,28 @@ public class ProjectRepository : GenericRepository<ProjectRepository>, IProjectR
         }
     }
 
-    public async Task<long> Add(long Id)
+
+    public async Task<Project> GetProjectsByIdAsync(long id)
+    {
+        try
+        {
+            ProjectDataModel projectDataModel = await _context.Set<ProjectDataModel>()
+                .FirstAsync(p => p.Id == id);
+
+            Project project = _projectMapper.ToDomain(projectDataModel);
+
+            return project;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public async Task<Project> Add(Project project)
     {
         try {
-            ProjectDataModel projectsDataModel = _projectMapper.ToDataModel(Id);
+            ProjectDataModel projectsDataModel = _projectMapper.ToDataModel(project);
 
             EntityEntry<ProjectDataModel> projectDataModelEntityEntry = _context.Set<ProjectDataModel>().Add(projectsDataModel);
             
@@ -44,7 +62,7 @@ public class ProjectRepository : GenericRepository<ProjectRepository>, IProjectR
 
             ProjectDataModel projectDataModelSaved = projectDataModelEntityEntry.Entity;
 
-            long projectSaved = _projectMapper.ToDomain(projectDataModelSaved);
+            Project projectSaved = _projectMapper.ToDomain(projectDataModelSaved);
 
             return projectSaved;    
         }
@@ -52,5 +70,10 @@ public class ProjectRepository : GenericRepository<ProjectRepository>, IProjectR
         {
             throw;
         }
+    }
+
+    public async Task<bool> ProjectExists(long projectId)
+    {
+        return await _context.Set<ProjectDataModel>().AnyAsync(p => p.Id == projectId);
     }
 }

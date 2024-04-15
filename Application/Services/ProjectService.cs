@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.DTO;
 using Domain.IRepository;
+using Domain.Model;
 
 namespace Application.Services
 {
@@ -14,10 +16,10 @@ namespace Application.Services
             _projectRepository = projectRepository;
         }
 
-        public async Task<long> Add(long id)
+        public async Task<Project> Add(ProjectDTO projectDTO)
         {
-
-            return await _projectRepository.Add(id);
+            Project project = ProjectDTO.ToDomain(projectDTO);
+            return await _projectRepository.Add(project);
         }
     }
 }

@@ -8,7 +8,6 @@ namespace Application.DTO
 {
     public class ColaboratorAmqpDTO
     {
-        public string Identifier { get; set; }
         public long Id { get; set; }
         public string Email { get; set; }
         public string Name { get; set; }
@@ -21,7 +20,6 @@ namespace Application.DTO
 
         public ColaboratorAmqpDTO(long id, string strName, string strEmail, string strStreet, string strPostalCode)
         {
-            Identifier = "Colaborator";
             Id = id;
             Name = strName;
             Email = strEmail;

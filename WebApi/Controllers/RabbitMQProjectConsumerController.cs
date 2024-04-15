@@ -30,7 +30,7 @@ namespace WebApi.Controllers
             exchange: "project",
             routingKey: string.Empty);
 
-            Console.WriteLine(" [*] Waiting for messages.");
+            Console.WriteLine(" [*] Waiting for messages from Project.");
         }
 
         public void StartConsuming()
@@ -46,7 +46,7 @@ namespace WebApi.Controllers
                 {
                     var projectService = scope.ServiceProvider.GetRequiredService<ProjectService>();
 
-                    projectService.Add(projectDTO.Id);
+                    await projectService.Add(projectDTO);
                 }
 
                 Console.WriteLine($" [x] Received {message}");

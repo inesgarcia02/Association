@@ -1,9 +1,10 @@
 
+using Domain.Model;
+
 namespace Application.DTO
 {
     public class ProjectDTO
     {
-        public string Identifier { get; set; }
         public long Id { get; set; }
         public string Name { get; set; }
         public DateOnly StartDate { get; set; }
@@ -15,11 +16,18 @@ namespace Application.DTO
 
         public ProjectDTO(long id, string name, DateOnly startDate, DateOnly? endDate)
         {
-            Identifier = "Project";
             Id = id;
             Name = name;
             StartDate = startDate;
             EndDate = endDate;
+        }
+
+
+        static public Project ToDomain(ProjectDTO projectDTO)
+        {
+            Project project = new Project(projectDTO.Id, projectDTO.StartDate, projectDTO.EndDate);
+
+            return project;
         }
     }
 }

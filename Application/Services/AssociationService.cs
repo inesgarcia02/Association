@@ -5,15 +5,20 @@ using Application.DTO;
 
 using Domain.IRepository;
 using Gateway;
+using RabbitMQ.Client.Events;
 
 public class AssociationService
 {
     private AssociationAmqpGateway _associationAmqpGateway;
     private readonly IAssociationRepository _associationRepository;
+    private readonly IColaboratorsIdRepository _colaboratorsRepository;
+    private readonly IProjectRepository _projectRepository;
 
-    public AssociationService(IAssociationRepository associationRepository, AssociationAmqpGateway associationAmqpGateway)
+    public AssociationService(IAssociationRepository associationRepository, IColaboratorsIdRepository colaboratorsRepository, IProjectRepository projectRepository, AssociationAmqpGateway associationAmqpGateway)
     {
         _associationRepository = associationRepository;
+        _colaboratorsRepository = colaboratorsRepository;
+        _projectRepository = projectRepository;
         _associationAmqpGateway = associationAmqpGateway;
     }
 
@@ -41,11 +46,10 @@ public class AssociationService
 
     public async Task<AssociationDTO> Add(AssociationDTO associationDTO, List<string> errorMessages)
     {
-        bool pExists = await _associationRepository.AssociationExists(associationDTO.Id);
-        if (pExists)
+        bool exists = VerifyAssociation(associationDTO, errorMessages).Result;
+
+        if (!exists)
         {
-            Console.WriteLine("Association already exists.");
-            errorMessages.Add("Association already exists.");
             return null;
         }
 
@@ -67,6 +71,69 @@ public class AssociationService
             errorMessages.Add(ex.Message);
             return null;
         }
+    }
+
+    private async Task<bool> VerifyAssociation(AssociationDTO associationDTO, List<string> errorMessages)
+    {
+        bool aExists = await _associationRepository.AssociationExists(associationDTO.Id);
+        if (aExists)
+        {
+            Console.WriteLine("Association already exists.");
+            errorMessages.Add("Association already exists.");
+            return false;
+        }
+
+        bool colabExists = await _colaboratorsRepository.ColaboratorExists(associationDTO.ColaboratorId);
+        if (!colabExists)
+        {
+            Console.WriteLine("Colaborator doesn't exist.");
+            errorMessages.Add("Colaborator doesn't exist.");
+            return false;
+        }
+
+        bool projectExists = await _projectRepository.ProjectExists(associationDTO.ProjectId);
+        if (!projectExists)
+        {
+            Console.WriteLine("Project doesn't exist.");
+            errorMessages.Add("Project doesn't exist.");
+            return false;
+        }
+
+        if (!CheckDates(associationDTO).Result)
+        {
+            Console.WriteLine("Association dates don't match with project.");
+            errorMessages.Add("Association dates don't match with project.");
+            return false;
+        }
+
+        return true;
+    }
+
+
+    private async Task<bool> CheckDates(AssociationDTO associationDTO)
+    {
+        Project p = await _projectRepository.GetProjectsByIdAsync(associationDTO.ProjectId);
+
+        DateOnly startProject = p.StartDate;
+        DateOnly? endProject = p.EndDate;
+
+        DateOnly startAssociation = associationDTO.StartDate;
+        DateOnly endAssociation = associationDTO.EndDate;
+
+        if (endProject != null)
+        {
+            if (startAssociation >= startProject && endAssociation <= endProject)
+            {
+                return true;
+            }
+        }
+        else if (startAssociation >= startProject)
+        {
+            return true;
+        }
+
+
+        return false;
     }
 
 

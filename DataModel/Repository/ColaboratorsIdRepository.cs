@@ -52,4 +52,9 @@ public class ColaboratorsIdRepository : GenericRepository<ColaboratorsIdReposito
             throw;
         }
     }
+
+    public async Task<bool> ColaboratorExists(long colabId)
+    {
+        return await _context.Set<ColaboratorsIdDataModel>().AnyAsync(c => c.Id == colabId);
+    }
 }

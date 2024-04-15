@@ -29,7 +29,7 @@ namespace WebApi.Controllers
             exchange: "colab_logs",
             routingKey: string.Empty);
 
-            Console.WriteLine(" [*] Waiting for messages.");
+            Console.WriteLine(" [*] Waiting for messages from Colaborator.");
         }
 
         public void StartConsuming()

@@ -10,5 +10,6 @@ namespace Domain.IRepository
         Task<IEnumerable<long>> GetColaboratorsIdAsync();
 
         Task<long> Add(long id);
+        Task<bool> ColaboratorExists(long colabId);
     }
 }

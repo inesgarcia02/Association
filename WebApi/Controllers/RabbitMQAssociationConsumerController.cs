@@ -29,7 +29,7 @@ namespace WebApi.Controllers
                   exchange: "associationLogs",
                   routingKey: string.Empty);
 
-            Console.WriteLine(" [*] Waiting for messages.");
+            Console.WriteLine(" [*] Waiting for messages from Association.");
         }
 
         public void StartConsuming()
@@ -45,7 +45,6 @@ namespace WebApi.Controllers
                 {
                     var associationService = scope.ServiceProvider.GetRequiredService<AssociationService>();
 
-                    //ProjectDTO projectResultDTO = projectService.Add(deserializedObject, _errorMessages).Result;
                     await associationService.Add(associationDTO, _errorMessages);
                 }
 

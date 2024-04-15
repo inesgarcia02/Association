@@ -4,6 +4,8 @@ namespace Domain.IRepository;
 
 public interface IProjectRepository
 {
-    Task<IEnumerable<long>> GetProjectsIdAsync();
-    Task<long> Add(long Id);
+    Task<IEnumerable<Project>> GetProjectsIdAsync();
+    Task<Project> Add(Project project);
+    Task<bool> ProjectExists(long projectId);
+    Task<Project> GetProjectsByIdAsync(long id);
 }

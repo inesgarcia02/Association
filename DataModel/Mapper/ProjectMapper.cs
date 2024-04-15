@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataModel.Model;
+using Domain.Model;
 
 namespace DataModel.Mapper
 {
@@ -13,28 +14,28 @@ namespace DataModel.Mapper
         {
         }
 
-        public long ToDomain(ProjectDataModel projectDM)
+        public Project ToDomain(ProjectDataModel projectDM)
         {
-            return projectDM.Id;
+            return new Project(projectDM.Id, projectDM.StartDate, projectDM.EndDate);
         }
 
-        public IEnumerable<long> ToDomain(IEnumerable<ProjectDataModel> projectsDataModel)
+        public IEnumerable<Project> ToDomain(IEnumerable<ProjectDataModel> projectsDataModel)
         {
-            List<long> projectsDomain = new List<long>();
+            List<Project> projectsDomain = new List<Project>();
 
             foreach(ProjectDataModel projectDomain in projectsDataModel)
             {
-                long id = ToDomain(projectDomain);
+                Project project = ToDomain(projectDomain);
 
-                projectsDomain.Add(id);
+                projectsDomain.Add(project);
             }
 
             return projectsDomain.AsEnumerable();
         }
 
-        public ProjectDataModel ToDataModel(long projectId)
+        public ProjectDataModel ToDataModel(Project project)
         {
-            ProjectDataModel projectDataModel = new ProjectDataModel(projectId);
+            ProjectDataModel projectDataModel = new ProjectDataModel(project);
 
             return projectDataModel;
         }
