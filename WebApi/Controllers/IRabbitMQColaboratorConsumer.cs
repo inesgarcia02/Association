@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
-    public interface IRabbitMQConsumerController
+    public interface IRabbitMQColaboratorConsumerController
     {
         public void StartConsuming();
     }

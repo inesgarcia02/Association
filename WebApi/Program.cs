@@ -40,7 +40,7 @@ builder.Services.AddTransient<AssociationService>();
 builder.Services.AddTransient<AssociationAmqpGateway>();
 
 
-builder.Services.AddSingleton<IRabbitMQConsumerController, RabbitMQConsumerController>();
+//builder.Services.AddSingleton<IRabbitMQAssociationConsumerController, RabbitMQAssociationConsumerController>();
 builder.Services.AddTransient<IColaboratorsIdRepository, ColaboratorsIdRepository>();
 builder.Services.AddTransient<ColaboratorsIdMapper>();
 builder.Services.AddTransient<ColaboratorIdService>();
@@ -58,7 +58,9 @@ builder.Services.AddTransient<ProjectService>();
 //     }
 // });
 
-builder.Services.AddSingleton<IRabbitMQConsumerController, RabbitMQConsumerController>();
+builder.Services.AddSingleton<IRabbitMQAssociationConsumerController, RabbitMQAssociationConsumerController>();
+builder.Services.AddSingleton<IRabbitMQProjectConsumerController, RabbitMQProjectConsumerController>();
+builder.Services.AddSingleton<IRabbitMQColaboratorConsumerController, RabbitMQColaboratorConsumerController>();
 
 var app = builder.Build();
 
@@ -73,8 +75,12 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-var rabbitMQConsumerService = app.Services.GetRequiredService<IRabbitMQConsumerController>();
-rabbitMQConsumerService.StartConsuming();
+var rabbitMQAssociationConsumerService = app.Services.GetRequiredService<IRabbitMQAssociationConsumerController>();
+var rabbitMQProjectConsumerService = app.Services.GetRequiredService<IRabbitMQProjectConsumerController>();
+var rabbitMQColaboratorService = app.Services.GetRequiredService<IRabbitMQColaboratorConsumerController>();
+rabbitMQAssociationConsumerService.StartConsuming();
+rabbitMQProjectConsumerService.StartConsuming();
+rabbitMQColaboratorService.StartConsuming();
 
 app.MapControllers();
 

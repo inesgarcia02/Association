@@ -27,6 +27,7 @@ namespace Domain
 				});
 			services.AddScoped<AssociationService>();
 			services.AddScoped<ProjectService>();
+			services.AddScoped<ColaboratorIdService>();
 		}
 
 		public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
